@@ -1,0 +1,9 @@
+name: cropper
+contributions:
+  commands:
+    - id: cropper.crop_widget
+      title: Crop and Save selection
+      python_name: cropper._widget:crop_widget
+  widgets:
+  - command: cropper.crop_widget
+    display_name: Crop and Save
