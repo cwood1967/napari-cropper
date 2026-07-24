@@ -1,13 +1,13 @@
 [project]
-name = "cropper"
+name = "napari-cropper"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
+license = "BSD-3-Clause"
 dependencies = [
     "napari[all]>=0.8.0",
-    "tifffile>=2026.7.14",
-    "xarray>=2026.7.0",
+    "tifffile>=2026.7.14"
 ]
 
 [build-system]

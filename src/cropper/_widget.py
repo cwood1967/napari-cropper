@@ -3,10 +3,10 @@ from typing import List
 import pathlib
 
 import tifffile
-import dask
+#import dask
 import dask.array as da
 import napari
-import napari.types
+#import napari.types
 #from magicgui.widgets import create_widget, Container
 from magicgui import magicgui, magic_factory
 from napari.utils._magicgui import find_viewer_ancestor
