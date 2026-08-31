@@ -1,9 +1,9 @@
 name: cropper
 contributions:
   commands:
-    - id: napari-cropper.crop_widget
+    - id: cropper.crop_widget
       title: Crop and Save selection
       python_name: cropper._widget:crop_widget
   widgets:
-  - command: napari-cropper.crop_widget
+  - command: cropper.crop_widget
     display_name: Crop and Save
