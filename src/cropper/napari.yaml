@@ -1,4 +1,4 @@
-name: napari-cropper
+name: cropper
 contributions:
   commands:
     - id: napari-cropper.crop_widget
