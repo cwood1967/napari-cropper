@@ -71,7 +71,7 @@ def crop_widget(
     if len(res_list) == 1:
         res = res_list[0]
     else:
-        res = da.stack(res_list, axis=0)
+        res = da.stack(res_list, axis=-3)
     
     if res.shape[-1] in [3, 4]:
         axes = "TZYXC"
