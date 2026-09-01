@@ -74,20 +74,23 @@ def crop_widget(
         res = da.stack(res_list, axis=0)
     
     if res.shape[-1] in [3, 4]:
-        axes = "YXC"
+        axes = "TZYXC"
         photometric = "rgb"
         #res = da.moveaxis(res, -1, -3)
     else:
-        axes = "CYX"
+        axes = "TZCYX"
         photometric = "minisblack"
+        
+    axes = axes[-res.ndim:]
+    
     
     print(res.shape, cropped.shape, axes)
     fname = f"{ymin:05d}_{xmin:05d}.tif"
     tifffile.imwrite(directory / fname, res,
                      imagej=False, ome=True,
-                     photometric=photometric)
-                    #  metadata={
-                    #      "axes":axes,
-                    #      "mode":"composite"
-                    #  }) 
+                     photometric=photometric,
+                     metadata={
+                         "axes":axes,
+                    #     "mode":"composite"
+                     }) 
     return None
