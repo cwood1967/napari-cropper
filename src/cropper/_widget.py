@@ -40,26 +40,54 @@ def crop_widget(
     box_coords_all = roi_layer.data[0]
     box_coords = box_coords_all[:, [-2, -1]]
     
+    print(box_coords)
     ymin, xmin = box_coords.min(axis=0).astype(int)
     ymax, xmax = box_coords.max(axis=0).astype(int)
     
     res_list = []
-    print(type(target_layers[0].data[0]))
+    
+    print(ymin, ymax, xmin, xmax)
     for img_layer in target_layers:
         if img_layer.multiscale:
             img = img_layer.data[0]
         else:
             img = img_layer.data
-        print(type(img), img.shape)
-        cropped = img[..., ymin:ymax, xmin:xmax]
         
+        if img.shape[-1] in [3, 4]:
+            #if img.ndim > 3:
+            cropped  = img[..., ymin:ymax, xmin:xmax, :]
+            #else:
+            #    cropped = img[ymin:ymax, xmin, xmax, :]
+        else:
+            if img.ndim > 2:
+                cropped = img[..., ymin:ymax, xmin:xmax]
+            else:
+                cropped = img[ymin:ymax, xmin:xmax]
+                
+        print(cropped.shape)    
         res_list.append(cropped)
-    res = da.stack(res_list, axis=0)
+    
+    print(len(res_list))
+    if len(res_list) == 1:
+        res = res_list[0]
+    else:
+        res = da.stack(res_list, axis=0)
+    
+    if res.shape[-1] in [3, 4]:
+        axes = "YXC"
+        photometric = "rgb"
+        #res = da.moveaxis(res, -1, -3)
+    else:
+        axes = "CYX"
+        photometric = "minisblack"
+    
+    print(res.shape, cropped.shape, axes)
     fname = f"{ymin:05d}_{xmin:05d}.tif"
     tifffile.imwrite(directory / fname, res,
-                     imagej=True,
-                     metadata={
-                         "axes":"CYX",
-                         "mode":"composite"
-                     }) 
+                     imagej=False, ome=True,
+                     photometric=photometric)
+                    #  metadata={
+                    #      "axes":axes,
+                    #      "mode":"composite"
+                    #  }) 
     return None
