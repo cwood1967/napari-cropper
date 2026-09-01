@@ -71,18 +71,18 @@ def crop_widget(
     if len(res_list) == 1:
         res = res_list[0]
     else:
-        res = da.stack(res_list, axis=-3)
-    
+        res = da.stack(res_list, axis=0)
+        res = da.moveaxis(0, -3)
+        
     if res.shape[-1] in [3, 4]:
         axes = "TZYXC"
         photometric = "rgb"
-        #res = da.moveaxis(res, -1, -3)
+        #res = da.moveaxis(res,   -1, -3)
     else:
         axes = "TZCYX"
         photometric = "minisblack"
         
     axes = axes[-res.ndim:]
-    
     
     print(res.shape, cropped.shape, axes)
     fname = f"{ymin:05d}_{xmin:05d}.tif"
